@@ -20,7 +20,7 @@ function App() {
           <Route element={<PrivateRoute requireAdmin={false} />}>
             <Route path="/feedback" element={<Feedback />} />
           </Route>
-          <Route element={<PrivateRoute requireAdmin={false} />}>
+          <Route element={<PrivateRoute requireAdmin={true} />}>
             <Route path="/admin/dashboard" element={<AdminFeedbacks />} />
           </Route>
         </Routes>

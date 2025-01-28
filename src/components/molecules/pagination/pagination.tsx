@@ -4,11 +4,11 @@ interface PaginationProps {
   onChangeCurPage: (curPage: number) => void;
 }
 
-const Pagination = ({
+export default function Pagination({
   curPage,
   totalPage,
   onChangeCurPage,
-}: PaginationProps) => {
+}: PaginationProps) {
   const handleClick = (page: number) => {
     if (page >= 1 && page <= totalPage) {
       onChangeCurPage(page);
@@ -36,6 +36,4 @@ const Pagination = ({
       </button>
     </div>
   );
-};
-
-export default Pagination;
+}

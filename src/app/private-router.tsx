@@ -1,4 +1,5 @@
 // src/components/PrivateRoute.tsx
+import { useAuth } from "context/authContext";
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
@@ -7,13 +8,13 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ requireAdmin }) => {
-  const isAuthenticated = localStorage.getItem("token") ? true : false;
+  const { user } = useAuth();
 
-  if (!isAuthenticated) {
+  if (!user) {
     return <Navigate to="/login" />;
   }
 
-  if (requireAdmin) {
+  if (requireAdmin && !user.isAdmin) {
     return <Navigate to="/forbidden" />;
   }
 
