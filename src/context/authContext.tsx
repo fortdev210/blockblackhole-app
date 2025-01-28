@@ -9,9 +9,9 @@ import { AuthUserType } from "../types/user-types";
 import axiosInstance from "../api/axios";
 
 interface AuthContextType {
-  authToken: string;
-  user: AuthUserType;
+  user: AuthUserType | null;
   login: (username: string, password: string) => Promise<void>;
+  register: (username: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -24,7 +24,6 @@ const getInitialState = () => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUserType | null>(getInitialState);
-  const [authToken, setAuthToken] = useState<string>("");
 
   useEffect(() => {
     sessionStorage.setItem("currentUser", JSON.stringify(user));
@@ -36,23 +35,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       password,
     });
     setUser({ username: res.data.username, isAdmin: res.data.isAdmin });
-    setAuthToken(res.data.token);
     localStorage.setItem("token", res.data.token); // Store token
+  };
+
+  const register = async (username: string, password: string) => {
+    const res = await axiosInstance.post("/auth/signup", {
+      name: username,
+      password,
+    });
+    setUser({ username: res.data.username, isAdmin: res.data.isAdmin });
+    localStorage.setItem("token", res.data.token);
   };
 
   const logout = () => {
     setUser(null);
-    setAuthToken("");
     localStorage.removeItem("token"); // Clear token
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setAuthToken(token || "");
-  }, []);
-
   return (
-    <AuthContext.Provider value={{ authToken, user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

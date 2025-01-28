@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "components/atoms/button";
-import apiInstance from "../api/axios";
+import apiInstance from "api/axios";
 
 export default function Feedback() {
   const [feedback, setFeedback] = useState("");

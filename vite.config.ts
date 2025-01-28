@@ -14,7 +14,10 @@ export default defineConfig(() => {
         components: resolve(__dirname, "src", "components"),
         hooks: resolve(__dirname, "src", "hooks"),
         context: resolve(__dirname, "src", "context"),
-        pages: resolve(__dirname, "src", "pages")
+        pages: resolve(__dirname, "src", "pages"),
+        api: resolve(__dirname, "src", "api"),
+        utils: resolve(__dirname, "src", "utils"),
+        types: resolve(__dirname, "src", "types")
       },
     },
   };
