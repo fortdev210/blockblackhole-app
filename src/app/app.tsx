@@ -17,11 +17,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forbidden" element={<Forbidden />} />
-          {/* Protected Routes */}
           <Route element={<PrivateRoute requireAdmin={false} />}>
             <Route path="/feedback" element={<Feedback />} />
           </Route>
-          <Route element={<PrivateRoute requireAdmin={true} />}>
+          <Route element={<PrivateRoute requireAdmin={false} />}>
             <Route path="/admin/dashboard" element={<AdminFeedbacks />} />
           </Route>
         </Routes>

@@ -9,7 +9,7 @@ import { AuthUserType } from "../types/user-types";
 import axiosInstance from "../api/axios";
 
 interface AuthContextType {
-  isAuthenticated: boolean;
+  authToken: string;
   user: AuthUserType;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
@@ -19,7 +19,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<any | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [authToken, setAuthToken] = useState<string>("");
 
   const login = async (username: string, password: string) => {
     const res = await axiosInstance.post("/auth/signin", {
@@ -27,23 +27,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       password,
     });
     setUser({ username: res.data.username, isAdmin: res.data.isAdmin });
-    setIsAuthenticated(true);
+    setAuthToken(res.data.token);
     localStorage.setItem("token", res.data.token); // Store token
   };
 
   const logout = () => {
     setUser(null);
-    setIsAuthenticated(false);
+    setAuthToken("");
     localStorage.removeItem("token"); // Clear token
   };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
+    setAuthToken(token || "");
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{ authToken, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

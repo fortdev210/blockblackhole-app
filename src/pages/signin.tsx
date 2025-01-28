@@ -18,7 +18,7 @@ export default function Login() {
     setLoading(true);
     try {
       await login(username, password);
-      navigate("/feedback");
+      navigate("/admin/dashboard");
     } catch (error: any) {
       setError(error.response.data.message);
     } finally {
