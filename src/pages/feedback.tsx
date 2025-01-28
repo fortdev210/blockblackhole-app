@@ -1,8 +1,11 @@
 import { useState } from "react";
 import Button from "components/atoms/button";
 import apiInstance from "api/axios";
+import { useAuth } from "context/authContext";
+import Navbar from "components/molecules/navbar";
 
 export default function Feedback() {
+  const { user, logout } = useAuth();
   const [feedback, setFeedback] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -18,6 +21,11 @@ export default function Feedback() {
 
   return (
     <section className="h-screen">
+      <Navbar
+        isAdmin={user?.isAdmin}
+        logout={logout}
+        username={user?.username || ""}
+      />
       <div className="h-full p-10">
         <div className="m-auto w-96">
           <p className="text-2xl mb-2">Submit your feedback</p>
